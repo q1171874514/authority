@@ -27,7 +27,7 @@ public interface CrudService<T, D> extends BaseService<T> {
 
     D get(Long id);
 
-    D save(D dto);
+    void save(D dto);
 
     void update(D dto);
 

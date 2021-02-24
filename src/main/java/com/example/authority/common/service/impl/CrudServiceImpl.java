@@ -8,18 +8,15 @@
 
 package com.example.authority.common.service.impl;
 
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.ReflectionKit;
+import com.example.authority.common.dao.OutFieldDao;
 import com.example.authority.common.page.PageData;
 import com.example.authority.common.service.CrudService;
 import com.example.authority.common.utils.ConvertUtils;
 import org.springframework.beans.BeanUtils;
-
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  *  CRUD基础服务类
@@ -32,6 +29,43 @@ public abstract class CrudServiceImpl<M extends BaseMapper<T>, T, D> extends Bas
         return (Class<D>)ReflectionKit.getSuperClassGenericType(getClass(), 2);
     }
 
+    /**
+     * entity转换dto
+     * @param entity
+     * @return
+     */
+    protected D entityToDto(T entity, Class<?> dtoClass) {
+        D dto = (D) ConvertUtils.sourceToTarget(entity, dtoClass);
+        return dto;
+    }
+
+    /**
+     * entityList转换dto
+     * @param entityList
+     * @return
+     */
+    protected List<D> entityToDtoList(List<T> entityList, Class<?> dtoClass) {
+        List<D> dtoList = new ArrayList<>();
+        entityList.stream().forEach((entity) -> {
+            dtoList.add(this.entityToDto(entity, dtoClass));
+        });
+        return dtoList;
+    }
+
+    /**
+     * entityPage转换dto
+     * @param page
+     * @return
+     */
+    protected PageData<D> getDtoPageData(IPage page, Class<?> dtoClass) {
+        List<D> dtoList = this.entityToDtoList(page.getRecords(), dtoClass);
+        return new PageData<>(dtoList, page.getTotal());
+    }
+
+    protected T dtoToEntity(D dto, Class<?> entityClass) {
+        return (T) ConvertUtils.sourceToTarget(dto, entityClass);
+    }
+
 
     @Override
     public PageData<D> page(Map<String, Object> params) {
@@ -40,7 +74,7 @@ public abstract class CrudServiceImpl<M extends BaseMapper<T>, T, D> extends Bas
             getWrapper(params)
         );
 
-        return getPageData(page, currentDtoClass());
+        return getDtoPageData(page, currentDtoClass());
     }
 
     @Override
@@ -50,31 +84,26 @@ public abstract class CrudServiceImpl<M extends BaseMapper<T>, T, D> extends Bas
             entityList = baseDao.selectList(null);
         else
             entityList = baseDao.selectList(getWrapper(params));
-
-        return ConvertUtils.sourceToTarget(entityList, currentDtoClass());
+        return entityToDtoList(entityList, currentDtoClass());
     }
-
-    public abstract QueryWrapper<T> getWrapper(Map<String, Object> params);
 
     @Override
     public D get(Long id) {
         T entity = baseDao.selectById(id);
-
-        return ConvertUtils.sourceToTarget(entity, currentDtoClass());
+        return entityToDto(entity, currentDtoClass());
     }
 
     @Override
-    public D save(D dto) {
-        T entity = ConvertUtils.sourceToTarget(dto, currentModelClass());
+    public void save(D dto) {
+        T entity = dtoToEntity(dto, currentModelClass());
         insert(entity);
         //copy主键值到dto
         BeanUtils.copyProperties(entity, dto);
-        return dto;
     }
 
     @Override
     public void update(D dto) {
-        T entity = ConvertUtils.sourceToTarget(dto, currentModelClass());
+        T entity = dtoToEntity(dto, currentModelClass());
         updateById(entity);
     }
 
