@@ -5,4 +5,5 @@ import com.example.authority.modules.test.dto.TestDTO;
 import com.example.authority.modules.test.entity.TestEntity;
 
 public interface TestService extends CrudService<TestEntity, TestDTO> {
+
 }

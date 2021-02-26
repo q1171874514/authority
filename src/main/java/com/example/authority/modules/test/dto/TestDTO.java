@@ -1,7 +1,9 @@
 package com.example.authority.modules.test.dto;
 
+import com.example.authority.common.validator.group.AddGroup;
 import lombok.Data;
 
+import javax.validation.constraints.NotNull;
 import java.util.Date;
 import java.util.List;
 
@@ -12,6 +14,7 @@ public class TestDTO {
      */
     private Long id;
 
+    @NotNull(groups = AddGroup.class, message = "name不能为空")
     private String name;
 
     private List<Integer> op;
