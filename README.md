@@ -14,5 +14,7 @@ RBAC权限管理
       4.outField：外表字段（需要获得的字段，查询的字段，覆盖）
       5.outTableWhere：查询条件（默认：outKey = $(foreignKey) ,建议不改，因为还未完善）
 ## 2.ValidatorUtils：数据校验类
-### 用法：
-          使用在Controller层的方法中，和dto的注解配
+### 用法：使用在Controller层的方法中，和dto的注解配合
+### dto注解参考：
+![image](https://user-images.githubusercontent.com/33956313/109384125-b279a700-7925-11eb-8dab-03c22dc84e3c.png)
+
