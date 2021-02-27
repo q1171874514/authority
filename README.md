@@ -16,5 +16,3 @@ RBAC权限管理
 ## 2.ValidatorUtils：数据校验类
 ### 用法：
           使用在Controller层的方法中，和dto的注解配合
-### dto注解参考：
-          https://blog.csdn.net/qq_33655674/article/details/81509615
