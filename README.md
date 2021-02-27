@@ -15,4 +15,4 @@ RBAC权限管理
       5.outTableWhere：查询条件（默认：outKey = $(foreignKey) ,建议不改，因为还未完善）
 ## 2.ValidatorUtils：数据校验类
 ### 用法：
-          使用在Controller层的方法中，和dto的注解配合
+          使用在Controller层的方法中，和dto的注解配
