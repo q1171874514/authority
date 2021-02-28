@@ -28,7 +28,6 @@ public class TestController {
 
     @PostMapping
     public Result save(@RequestBody TestDTO testDTO) {
-        String message = MessageUtils.getMessage(ErrorCode.ACCOUNT_PASSWORD_ERROR);
         ValidatorUtils.validateEntity(testDTO, AddGroup.class);
         testService.save(testDTO);
         return new Result();
