@@ -8,7 +8,6 @@ import java.util.function.Function;
 @Inherited
 @Documented
 public @interface OutTablesField {
-
     /**
      * 外表字段
      * @return
