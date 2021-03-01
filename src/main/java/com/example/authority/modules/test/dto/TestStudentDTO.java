@@ -3,6 +3,7 @@ package com.example.authority.modules.test.dto;
 import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.example.authority.common.annotation.OutTablesField;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
 import java.util.Date;
