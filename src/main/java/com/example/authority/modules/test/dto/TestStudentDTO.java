@@ -13,4 +13,7 @@ public class TestStudentDTO {
 
     @OutTablesField(foreignKey = "teacherId", outTableName = "test_teacher", outField = "name")
     private String teacherName;
+
+    @OutTablesField(foreignKey = "teacherId", outTableName = "test_teacher", outField = "id")
+    private Long teacherIds;
 }
