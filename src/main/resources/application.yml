@@ -26,6 +26,10 @@ spring:
         min-idle: 5       # 连接池中的最小空闲连接
   activiti:
     check-process-definitions: false
+  #时间戳统一转换（输入string转换date，输出date转换string）
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+8
 # 是否开启redis缓存  true开启   false关闭
 redis.open: false
 #mybatis配置
@@ -33,3 +37,4 @@ mybatis:
   typeAliasesPackage: com.example.authority.modules.**.entity
   mapperLocations: classpath:mapper/**/*.xml
   configLocation: classpath:/mybatis-config.xml
+
