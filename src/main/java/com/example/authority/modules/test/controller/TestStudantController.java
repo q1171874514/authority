@@ -27,4 +27,10 @@ public class TestStudantController {
         testStudentService.save(dto);
         return new Result();
     }
+
+    @PutMapping
+    public Result update(@RequestBody TestStudentDTO dto) {
+        testStudentService.update(dto);
+        return new Result();
+    }
 }
