@@ -19,3 +19,7 @@ RBAC权限管理
 ### dto注解参考：
 ![image](https://user-images.githubusercontent.com/33956313/109384125-b279a700-7925-11eb-8dab-03c22dc84e3c.png)
 https://blog.csdn.net/qq_33655674/article/details/81509615
+
+## 3.@TableField：自动填充处理
+      1.配置：在common的handler中的FieldMetaObjectHandler进行配置
+      2.使用：主要在entity的字段中，在修改或保存时填充
