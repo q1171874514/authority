@@ -8,10 +8,10 @@
 
 package com.example.authority.common.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.ReflectionKit;
-import com.example.authority.common.dao.OutFieldDao;
 import com.example.authority.common.page.PageData;
 import com.example.authority.common.service.CrudService;
 import com.example.authority.common.utils.ConvertUtils;
@@ -28,6 +28,8 @@ public abstract class CrudServiceImpl<M extends BaseMapper<T>, T, D> extends Bas
     protected Class<D> currentDtoClass() {
         return (Class<D>)ReflectionKit.getSuperClassGenericType(getClass(), 2);
     }
+
+    public abstract QueryWrapper<T> getWrapper(Map<String, Object> params);
 
     /**
      * entity转换dto

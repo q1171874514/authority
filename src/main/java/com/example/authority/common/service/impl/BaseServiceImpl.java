@@ -9,7 +9,6 @@
 package com.example.authority.common.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.Wrapper;
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.enums.SqlMethod;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
@@ -41,8 +40,6 @@ public abstract class BaseServiceImpl<M extends BaseMapper<T>, T>  implements Ba
     @Autowired
     protected M baseDao;
 
-    public abstract QueryWrapper<T> getWrapper(Map<String, Object> params);
-
     /**
      * 获取分页对象
      * @param params      分页查询参数
@@ -53,15 +50,14 @@ public abstract class BaseServiceImpl<M extends BaseMapper<T>, T>  implements Ba
         //分页参数
         long curPage = 1;
         long limit = 10;
-
         if(params.get(Constant.PAGE) != null){
             curPage = Long.parseLong((String)params.get(Constant.PAGE));
         }
         if(params.get(Constant.LIMIT) != null){
             limit = Long.parseLong((String)params.get(Constant.LIMIT));
         }
-
-        //分页对象
+//
+//        分页对象
         Page<T> page = new Page<>(curPage, limit);
 
         //分页参数
