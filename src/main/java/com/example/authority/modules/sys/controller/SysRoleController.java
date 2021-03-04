@@ -68,6 +68,7 @@ public class SysRoleController {
 	@ApiOperation("列表")
 	@RequiresPermissions("sys:role:list")
 	public Result<List<SysRoleDTO>> list(){
+
 		List<SysRoleDTO> data = sysRoleService.list(new HashMap<>(1));
 
 		return new Result<List<SysRoleDTO>>().ok(data);
