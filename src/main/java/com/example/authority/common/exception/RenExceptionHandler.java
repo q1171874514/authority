@@ -15,6 +15,8 @@ import com.example.authority.common.utils.IpUtils;
 import com.example.authority.common.utils.Result;
 //import com.example.authority.modules.log.entity.SysLogErrorEntity;
 //import com.example.authority.modules.log.service.SysLogErrorService;
+import com.example.authority.modules.log.entity.SysLogErrorEntity;
+import com.example.authority.modules.log.service.SysLogErrorService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,8 +39,8 @@ import java.util.Map;
 public class RenExceptionHandler {
 	private static final Logger logger = LoggerFactory.getLogger(RenExceptionHandler.class);
 
-//	@Autowired
-//	private SysLogErrorService sysLogErrorService;
+	@Autowired
+	private SysLogErrorService sysLogErrorService;
 
 	/**
 	 * 处理自定义异常
@@ -63,32 +65,32 @@ public class RenExceptionHandler {
 	public Result handleException(Exception ex){
 		logger.error(ex.getMessage(), ex);
 
-//		saveLog(ex);
+		saveLog(ex);
 
 		return new Result().error();
 	}
 
-//	/**
-//	 * 保存异常日志
-//	 */
-//	private void saveLog(Exception ex){
-//		SysLogErrorEntity log = new SysLogErrorEntity();
-//
-//		//请求相关信息
-//		HttpServletRequest request = HttpContextUtils.getHttpServletRequest();
-//		log.setIp(IpUtils.getIpAddr(request));
-//		log.setUserAgent(request.getHeader(HttpHeaders.USER_AGENT));
-//		log.setRequestUri(request.getRequestURI());
-//		log.setRequestMethod(request.getMethod());
-//		Map<String, String> params = HttpContextUtils.getParameterMap(request);
-//		if(MapUtil.isNotEmpty(params)){
-//			log.setRequestParams(JSON.toJSONString(params));
-//		}
-//
-//		//异常信息
-//		log.setErrorInfo(ExceptionUtils.getErrorStackTrace(ex));
-//
-//		//保存
-//		sysLogErrorService.save(log);
-//	}
+	/**
+	 * 保存异常日志
+	 */
+	private void saveLog(Exception ex){
+		SysLogErrorEntity log = new SysLogErrorEntity();
+
+		//请求相关信息
+		HttpServletRequest request = HttpContextUtils.getHttpServletRequest();
+		log.setIp(IpUtils.getIpAddr(request));
+		log.setUserAgent(request.getHeader(HttpHeaders.USER_AGENT));
+		log.setRequestUri(request.getRequestURI());
+		log.setRequestMethod(request.getMethod());
+		Map<String, String> params = HttpContextUtils.getParameterMap(request);
+		if(MapUtil.isNotEmpty(params)){
+			log.setRequestParams(JSON.toJSONString(params));
+		}
+
+		//异常信息
+		log.setErrorInfo(ExceptionUtils.getErrorStackTrace(ex));
+
+		//保存
+		sysLogErrorService.save(log);
+	}
 }

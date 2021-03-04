@@ -67,7 +67,6 @@ public class SysUserController {
 	})
 	@RequiresPermissions("sys:user:page")
 	public Result<PageData<SysUserDTO>> page(@RequestParam Map<String, Object> params){
-		UserDetail user = SecurityUser.getUser();
 		PageData<SysUserDTO> page = sysUserService.page(params);
 
 		return new Result<PageData<SysUserDTO>>().ok(page);

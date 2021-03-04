@@ -13,6 +13,10 @@ import com.example.authority.common.exception.RenException;
 import com.example.authority.common.utils.IpUtils;
 import com.example.authority.common.utils.Result;
 import com.example.authority.common.validator.AssertUtils;
+import com.example.authority.modules.log.entity.SysLogLoginEntity;
+import com.example.authority.modules.log.enums.LoginOperationEnum;
+import com.example.authority.modules.log.enums.LoginStatusEnum;
+import com.example.authority.modules.log.service.SysLogLoginService;
 import com.example.authority.modules.security.dto.LoginDTO;
 import com.example.authority.common.password.PasswordUtils;
 import com.example.authority.modules.security.service.CaptchaService;
@@ -54,8 +58,8 @@ public class LoginController {
 	private SysUserTokenService sysUserTokenService;
 	@Autowired
 	private CaptchaService captchaService;
-//	@Autowired
-//	private SysLogLoginService sysLogLoginService;
+	@Autowired
+	private SysLogLoginService sysLogLoginService;
 
 	@GetMapping("captcha")
 	@ApiOperation(value = "验证码", produces="application/octet-stream")
@@ -89,47 +93,47 @@ public class LoginController {
 		//用户信息
 		SysUserDTO user = sysUserService.getByUsername(login.getUsername());
 
-//		SysLogLoginEntity log = new SysLogLoginEntity();
-//		log.setOperation(LoginOperationEnum.LOGIN.value());
-//		log.setCreateDate(new Date());
-//		log.setIp(IpUtils.getIpAddr(request));
-//		log.setUserAgent(request.getHeader(HttpHeaders.USER_AGENT));
-//		log.setIp(IpUtils.getIpAddr(request));
+		SysLogLoginEntity log = new SysLogLoginEntity();
+		log.setOperation(LoginOperationEnum.LOGIN.value());
+		log.setCreateDate(new Date());
+		log.setIp(IpUtils.getIpAddr(request));
+		log.setUserAgent(request.getHeader(HttpHeaders.USER_AGENT));
+		log.setIp(IpUtils.getIpAddr(request));
 
 		//用户不存在
 		if(user == null){
-//			log.setStatus(LoginStatusEnum.FAIL.value());
-//			log.setCreatorName(login.getUsername());
-//			sysLogLoginService.save(log);
+			log.setStatus(LoginStatusEnum.FAIL.value());
+			log.setCreatorName(login.getUsername());
+			sysLogLoginService.save(log);
 
 			throw new RenException(ErrorCode.ACCOUNT_PASSWORD_ERROR);
 		}
 
 		//密码错误
 		if(!PasswordUtils.matches(login.getPassword(), user.getPassword())){
-//			log.setStatus(LoginStatusEnum.FAIL.value());
-//			log.setCreator(user.getId());
-//			log.setCreatorName(user.getUsername());
-//			sysLogLoginService.save(log);
+			log.setStatus(LoginStatusEnum.FAIL.value());
+			log.setCreator(user.getId());
+			log.setCreatorName(user.getUsername());
+			sysLogLoginService.save(log);
 
 			throw new RenException(ErrorCode.ACCOUNT_PASSWORD_ERROR);
 		}
 
 		//账号停用
 		if(user.getStatus() == UserStatusEnum.DISABLE.value()){
-//			log.setStatus(LoginStatusEnum.LOCK.value());
-//			log.setCreator(user.getId());
-//			log.setCreatorName(user.getUsername());
-//			sysLogLoginService.save(log);
+			log.setStatus(LoginStatusEnum.LOCK.value());
+			log.setCreator(user.getId());
+			log.setCreatorName(user.getUsername());
+			sysLogLoginService.save(log);
 
 			throw new RenException(ErrorCode.ACCOUNT_DISABLE);
 		}
 
 //		//登录成功
-//		log.setStatus(LoginStatusEnum.SUCCESS.value());
-//		log.setCreator(user.getId());
-//		log.setCreatorName(user.getUsername());
-//		sysLogLoginService.save(log);
+		log.setStatus(LoginStatusEnum.SUCCESS.value());
+		log.setCreator(user.getId());
+		log.setCreatorName(user.getUsername());
+		sysLogLoginService.save(log);
 
 		return sysUserTokenService.createToken(user.getId());
 	}
@@ -142,17 +146,17 @@ public class LoginController {
 		//退出
 		sysUserTokenService.logout(user.getId());
 
-//		//用户信息
-//		SysLogLoginEntity log = new SysLogLoginEntity();
-//		log.setOperation(LoginOperationEnum.LOGOUT.value());
-//		log.setIp(IpUtils.getIpAddr(request));
-//		log.setUserAgent(request.getHeader(HttpHeaders.USER_AGENT));
-//		log.setIp(IpUtils.getIpAddr(request));
-//		log.setStatus(LoginStatusEnum.SUCCESS.value());
-//		log.setCreator(user.getId());
-//		log.setCreatorName(user.getUsername());
-//		log.setCreateDate(new Date());
-//		sysLogLoginService.save(log);
+		//用户信息
+		SysLogLoginEntity log = new SysLogLoginEntity();
+		log.setOperation(LoginOperationEnum.LOGOUT.value());
+		log.setIp(IpUtils.getIpAddr(request));
+		log.setUserAgent(request.getHeader(HttpHeaders.USER_AGENT));
+		log.setIp(IpUtils.getIpAddr(request));
+		log.setStatus(LoginStatusEnum.SUCCESS.value());
+		log.setCreator(user.getId());
+		log.setCreatorName(user.getUsername());
+		log.setCreateDate(new Date());
+		sysLogLoginService.save(log);
 
 		return new Result();
 	}
