@@ -8,6 +8,7 @@
 
 package com.example.authority.modules.sys.controller;
 
+import com.example.authority.common.annotation.LogOperation;
 import com.example.authority.common.utils.Result;
 import com.example.authority.common.validator.AssertUtils;
 import com.example.authority.common.validator.ValidatorUtils;
@@ -58,6 +59,7 @@ public class SysDeptController {
 	@PostMapping
 	@ApiOperation("保存")
 	@RequiresPermissions("sys:dept:save")
+	@LogOperation("保存")
 	public Result save(@RequestBody SysDeptDTO dto){
 		//效验数据
 		ValidatorUtils.validateEntity(dto, AddGroup.class, DefaultGroup.class);
@@ -70,6 +72,7 @@ public class SysDeptController {
 	@PutMapping
 	@ApiOperation("修改")
 	@RequiresPermissions("sys:dept:update")
+	@LogOperation("修改")
 	public Result update(@RequestBody SysDeptDTO dto){
 		//效验数据
 		ValidatorUtils.validateEntity(dto, UpdateGroup.class, DefaultGroup.class);
@@ -82,6 +85,7 @@ public class SysDeptController {
 	@DeleteMapping("{id}")
 	@ApiOperation("删除")
 	@RequiresPermissions("sys:dept:delete")
+	@LogOperation("删除")
 	public Result delete(@PathVariable("id") Long id){
 		//效验数据
 		AssertUtils.isNull(id, "id");

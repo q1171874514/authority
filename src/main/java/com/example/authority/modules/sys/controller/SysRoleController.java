@@ -8,6 +8,7 @@
 
 package com.example.authority.modules.sys.controller;
 
+import com.example.authority.common.annotation.LogOperation;
 import com.example.authority.common.constant.Constant;
 import com.example.authority.common.page.PageData;
 import com.example.authority.common.utils.Result;
@@ -94,6 +95,7 @@ public class SysRoleController {
 	@PostMapping
 	@ApiOperation("保存")
 	@RequiresPermissions("sys:role:save")
+	@LogOperation("保存")
 	public Result save(@RequestBody SysRoleDTO dto){
 		//效验数据
 		ValidatorUtils.validateEntity(dto, AddGroup.class, DefaultGroup.class);
@@ -106,6 +108,7 @@ public class SysRoleController {
 	@PutMapping
 	@ApiOperation("修改")
 	@RequiresPermissions("sys:role:update")
+	@LogOperation("修改")
 	public Result update(@RequestBody SysRoleDTO dto){
 		//效验数据
 		ValidatorUtils.validateEntity(dto, UpdateGroup.class, DefaultGroup.class);
@@ -118,6 +121,7 @@ public class SysRoleController {
 	@DeleteMapping
 	@ApiOperation("删除")
 	@RequiresPermissions("sys:role:delete")
+	@LogOperation("删除")
 	public Result delete(@RequestBody Long[] ids){
 		//效验数据
 		AssertUtils.isArrayEmpty(ids, "id");

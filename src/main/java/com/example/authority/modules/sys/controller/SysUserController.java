@@ -8,6 +8,7 @@
 
 package com.example.authority.modules.sys.controller;
 
+import com.example.authority.common.annotation.LogOperation;
 import com.example.authority.common.constant.Constant;
 import com.example.authority.common.exception.ErrorCode;
 import com.example.authority.common.page.PageData;
@@ -94,6 +95,7 @@ public class SysUserController {
 
 	@PutMapping("password")
 	@ApiOperation("修改密码")
+	@LogOperation("修改密码")
 	public Result password(@RequestBody PasswordDTO dto){
 		//效验数据
 		ValidatorUtils.validateEntity(dto);
@@ -113,6 +115,7 @@ public class SysUserController {
 	@PostMapping
 	@ApiOperation("保存")
 	@RequiresPermissions("sys:user:save")
+	@LogOperation("保存")
 	public Result save(@RequestBody SysUserDTO dto){
 		//效验数据
 		ValidatorUtils.validateEntity(dto, AddGroup.class, DefaultGroup.class);
@@ -125,6 +128,7 @@ public class SysUserController {
 	@PutMapping
 	@ApiOperation("修改")
 	@RequiresPermissions("sys:user:update")
+	@LogOperation("修改")
 	public Result update(@RequestBody SysUserDTO dto){
 		//效验数据
 		ValidatorUtils.validateEntity(dto, UpdateGroup.class, DefaultGroup.class);
@@ -137,6 +141,7 @@ public class SysUserController {
 	@DeleteMapping
 	@ApiOperation("删除")
 	@RequiresPermissions("sys:user:delete")
+	@LogOperation("删除")
 	public Result delete(@RequestBody Long[] ids){
 		//效验数据
 		AssertUtils.isArrayEmpty(ids, "id");
@@ -150,6 +155,7 @@ public class SysUserController {
 	@ApiOperation("导出")
 	@RequiresPermissions("sys:user:export")
 	@ApiImplicitParam(name = "username", value = "用户名", paramType = "query", dataType="String")
+	@LogOperation("导出")
 	public void export(@RequestParam Map<String, Object> params, HttpServletResponse response) throws Exception {
 		List<SysUserDTO> list = sysUserService.list(params);
 
