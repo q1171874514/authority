@@ -25,8 +25,10 @@ import java.util.Date;
 public class FieldMetaObjectHandler implements MetaObjectHandler {
     private final static String CREATE_DATE = "createDate";
     private final static String CREATOR = "creator";
+    private final static String CREATOR_NAME = "creatorName";
     private final static String UPDATE_DATE = "updateDate";
     private final static String UPDATER = "updater";
+    private final static String UPDATER_NAME = "updaterName";
     private final static String DEPT_ID = "deptId";
 
     @Override
@@ -36,22 +38,30 @@ public class FieldMetaObjectHandler implements MetaObjectHandler {
 
         //创建者
         setInsertFieldValByName(CREATOR, user.getId(), metaObject);
+        //创建者名称
+        setInsertFieldValByName(CREATOR_NAME, user.getUsername(), metaObject);
         //创建时间
         setInsertFieldValByName(CREATE_DATE, date, metaObject);
+
 
         //创建者所属部门
         setInsertFieldValByName(DEPT_ID, user.getDeptId(), metaObject);
 
         //更新者
         setInsertFieldValByName(UPDATER, user.getId(), metaObject);
+        //更新者名称
+        setInsertFieldValByName(UPDATER_NAME, user.getUsername(), metaObject);
         //更新时间
         setInsertFieldValByName(UPDATE_DATE, date, metaObject);
     }
 
     @Override
     public void updateFill(MetaObject metaObject) {
-//        //更新者
-//        setUpdateFieldValByName(UPDATER, SecurityUser.getUserId(), metaObject);
+        UserDetail user = SecurityUser.getUser();
+        //更新者
+        setUpdateFieldValByName(UPDATER, user.getId(), metaObject);
+        //更新者名称
+        setInsertFieldValByName(UPDATER_NAME, user.getUsername(), metaObject);
         //更新时间
         setUpdateFieldValByName(UPDATE_DATE, new Date(), metaObject);
     }
