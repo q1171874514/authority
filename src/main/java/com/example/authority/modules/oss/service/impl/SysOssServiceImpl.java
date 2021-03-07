@@ -16,7 +16,6 @@ import com.example.authority.common.service.impl.BaseServiceImpl;
 import com.example.authority.modules.oss.dao.SysOssDao;
 import com.example.authority.modules.oss.entity.SysOssEntity;
 import com.example.authority.modules.oss.service.SysOssService;
-import com.example.authority.modules.test.entity.TestEntity;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
