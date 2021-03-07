@@ -46,12 +46,13 @@ public abstract class CrudServiceImpl<M extends BaseMapper<T>, T, D> extends Bas
      * @param entityList
      * @return
      */
-    protected List<D> entityToDtoList(List<T> entityList, Class<?> dtoClass) {
-        List<D> dtoList = new ArrayList<>();
-        entityList.stream().forEach((entity) -> {
-            dtoList.add(this.entityToDto(entity, dtoClass));
-        });
-        return dtoList;
+    protected List<D> entityToDtoList(List<T> entityList) {
+//        List<D> dtoList = new ArrayList<>();
+//        entityList.stream().forEach((entity) -> {
+//            dtoList.add(this.entityToDto(entity, currentDtoClass()));
+//        });
+
+        return ConvertUtils.sourceToTarget(entityList, currentDtoClass());
     }
 
     /**
@@ -59,9 +60,9 @@ public abstract class CrudServiceImpl<M extends BaseMapper<T>, T, D> extends Bas
      * @param page
      * @return
      */
-    protected PageData<D> getDtoPageData(IPage page, Class<?> dtoClass) {
-        List<D> dtoList = this.entityToDtoList(page.getRecords(), dtoClass);
-        return new PageData<>(dtoList, page.getTotal());
+    protected PageData<D> getDtoPageData(IPage<T> page) {
+//        List<D> dtoList = this.entityToDtoList(page.getRecords(), dtoClass);
+        return new PageData<>(ConvertUtils.sourceToTarget(page.getRecords(), currentDtoClass()), page.getTotal());
     }
 
     protected T dtoToEntity(D dto, Class<?> entityClass) {
@@ -76,7 +77,7 @@ public abstract class CrudServiceImpl<M extends BaseMapper<T>, T, D> extends Bas
             getWrapper(params)
         );
 
-        return getDtoPageData(page, currentDtoClass());
+        return getDtoPageData(page);
     }
 
     @Override
@@ -86,7 +87,7 @@ public abstract class CrudServiceImpl<M extends BaseMapper<T>, T, D> extends Bas
             entityList = baseDao.selectList(null);
         else
             entityList = baseDao.selectList(getWrapper(params));
-        return entityToDtoList(entityList, currentDtoClass());
+        return entityToDtoList(entityList);
     }
 
     @Override
